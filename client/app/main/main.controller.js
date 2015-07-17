@@ -35,7 +35,18 @@ angular.module('githubviewerApp')
 
     github.getUsers()
     	.then(function(data) {
-    		$scope.users = data;
+
+        var customUsers = [];
+        data.forEach(function(user){
+          customUsers.push({
+            name : user.login,
+            repos : github.getRepos(user).then(function(response){ return response.length; })
+          });
+        });
+
+    		$scope.users = customUsers;
+
+        console.dir(customUsers)
     		
 
     	},
